@@ -1,0 +1,19 @@
+enclave {
+    from "Sealing/Sealing.edl" import *;
+
+    trusted {
+        /* define ECALLs here. ECALLS are calls executed from outside of the enclave, which
+           should be performed inside the enclave */
+        public void secure_nn(int randseed);
+        public void secure_train([in, count=ndata1] double** data, [in, count=ndata1] double** gt, size_t ndata1);
+        public void secure_test([in, count=ndata2] double** datat, [in, count=ndata2] double** gtt, size_t ndata2);
+        public void secure_summurize();
+    };
+
+    untrusted {
+        /* define OCALLs here. OCALLs are executed from within enclave on insecure methods, that is
+           methods located outside the enclave. */
+        void print_message([in, string] const char* str);
+        void outputresult([in, count=ndata3] int* predictions, size_t ndata3);
+    };
+};
